@@ -1,0 +1,81 @@
+CREATING A SERVER
+
+// Constant http can be renamed to any name which means we can give any name to constant on which we are importing http module
+
+//.js is automatically added to the module name(Here : http)
+// './' gives relative path ( means the path to current folder)
+// '/' is for absolute path
+// using require we can also import our own javascript files
+// core modules are importer just by their name without indication any path
+
+// RELATIVE AND ABSOLUTE PATH
+
+// Traces the path from the current directory through its parent or its subdirectories and files.
+// An absolute path name represents the complete name of a directory or file from the /(root) directory downward.
+
+
+//process.exit() 
+
+//This function is used to terminate event loop so that our server stops running .
+// we don't use this function because we don't want to quit server.
+
+req parameter contains the all data and information of requests.
+headers in req are the metadata, meta information added to the  request.
+
+
+Some important propertie in req object
+
+req.url  --> give the path after localhost:3000
+        eg. for url  localhost:3000/test  --> req.url = /test
+req.method --> give methods such as GET, POST
+req.headers --> meta information of request
+
+
+Response:
+
+res.setHeader('Content-Type', 'text/html');
+res.write(<html><head>Hello World');
+res.write('</head></html>')       --> used to write on webpage
+res.end() ---> after this statement we can't use res.write();
+
+
+On both requests and responses, Http headers are added to transport metadata from A to B.
+
+The following article provides a great overview of available headers and their role: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+
+Whilst this article is a great resource, especially to dive deeper, please don't learn this list by heart though! You'll encounter many of these headers throughout the course and I'll explain them when we need them.
+
+
+req.on()  ---> is event listner which is created on creation of server
+it takes two arguments
+req.on(data, (chunk)=>{})
+
+STREAM AND BUFFER
+
+        The request is read in chunks:
+                stream -> req body part 1 -> req body part 2 -> req body part 3 -> fully parsed
+
+        This is done because server doesn't know how big and complex is data.
+        We can't work on these data directly but it is possible through Buffers.
+        Buffer are like bus stop for buses. Like buses are running all the time but at bus stop they stop for the 
+        movement of passangers, similarly using buffer the data can be accessed and used.
+        Buffer is a construct which allows you to hold  multiple chunks and work with them before they are released once you're done.
+
+
+Understanding event driven code execution (Watch video 035)
+
+writeFileSync()  --> blocks the execution of next file until it gets executed
+writeFile()(preferred)   --> does not block the execution of next code and takes an extra third parameter as callback function
+                             and its executed when the writeFile operation is done. This function has argument error as following:
+                             (err) => { handling of error or displaying error}
+
+
+WORKER POOL 
+It do all the heavy lifting like file operations and it is totally deattached from javascript and works on different threads.
+
+
+EVENT LOOP 
+It handles all the  callbacks and it has certain order in which it goes through.
+
+SECURITY B/W REQUESTS
+Every fuction has its scope to itself so the javascript prevents the interference  of one request to another
