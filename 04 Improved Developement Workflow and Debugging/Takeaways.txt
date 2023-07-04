@@ -1,0 +1,69 @@
+NPM (Node Package  Manager)  --> a CLI (command-line interface) tool for publishing and downloading packages, and; an online repository that hosts JavaScript package.
+
+->It makes command more redundant and also helpful for any other fellow programmer to run project without figuring out the starting file.
+
+->npm init -->  The init command is used to initialize a project. When you run this command, it creates a package.json file.
+
+->Adding scripts
+
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",                --> npm start(command to run this script)  (start known command)
+    "start-server": "node app.js"          --> npm run start-server(command to run this script) (since start-server is not a know command, so we can't run it simply writing 'npm start-server')
+  }
+
+
+-> We can also install 3rd party packages(also known as Dependencies) using npm command
+
+   Command used to install 3rd party packages  --> npm install <package-name> <Development-Dependency-Package/Production-Dependency-Package>(optional)
+
+    Development-Dependency-package --> the package which is needed during the development phase but not on server.
+    Production-Dependency-package   --> The package which is needed on server or which is used on server app.
+
+    example - npm install nodemon --save--dev (as Development Dependency)
+              npm install nodemon --save (as Production Dependency)
+              npm install nodemon -g (installs the package globally on machine, so it can be used anywhere)
+
+
+--> On installing nodemon --> package-lock.json file is created , it stores all the versions information of the packages that are used in project
+                              so that if anyone else runs it, it should run the same versions instead of updated versions.
+                          --> Node_module folder is created which store the installed packages.
+
+
+--> Third-party Modules need to be installed (via npm install in the project folder) AND imported.
+
+        Example (which you don't need to understand yet - we'll cover this later in the course):
+
+        // In terminal/ command prompt
+        npm install --save express-session
+
+        // In code file (e.g. app.js)
+        const sessions = require('express-session');
+
+
+--> nodemon app.js does not run in terminal, because terminal look for it globally but we have installed it in the package,
+    So, we add it in the start script as "start": "nodemon app.js"
+
+
+ERRORS
+
+--> Types of Errors
+        - Syntax Errors - for a typo in code
+        - Runtime Errors - where we try to execute some code which will just break when it runs
+        - Logical Errors - Here we never see an error message, thus are most difficult one to resolve
+
+    -> Finding and fixing Syntax Errors
+        compiler tells us where the error resides(in which line of code). Sometimes the error line may be wrong, so take the help of compiler message and judge it at own.
+
+    -> Fixing Logical Errors
+        use debbuger
+        - mark line for break throughs
+        - view execution of code , call stacks in option view->debbug
+        - we can also see the values by hovering over the statements
+        - we can also use console to run commands while debbuging
+        - we can also write variables name in console to know there value at particular breakpoint in code
+        - we can also change the values of variable during debbuging in variable section in debugg section
+
+        Want to dive super-deep into the latest debugging capabilities Visual Studio Code gives you (for Node.js apps)?
+
+        This article will be very helpful: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
