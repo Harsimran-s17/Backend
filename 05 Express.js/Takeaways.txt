@@ -1,0 +1,86 @@
+Express is a framework of node.js
+
+command to install express in your project - npm install --save express
+
+const express = require('express'); --> it returns  a function which is further called and stored in some variable as following
+
+const app = express();
+
+app here is also happen to be a valid requestHandler and can be passed to the 'createServer(app)' function.
+
+
+middleware : It is function through which a request can go before the respose, different middleware funcions have different functionalities.
+             various third party packages provide different middlewares.
+             middlewares can be related to funnels through which a request goes before response.
+
+use() method :
+             with this function we can add new middleware function
+             eg : app.use((req, res, next)=>{}); this callback fuction is now executed for every incoming request.
+                        'next' is function passed which is called in this callback fuction to allow request to move to next middleware.
+
+send() method:
+                res.send() is used to send response and it automatically set the headers. we can also overwrite it manually using res.setHeaders() method.
+                eg:
+                    res.send("<h1>This is Express</h1>") ---> this will automatically set header to 'text/html'.
+
+
+const server = http.createServer()
+                                             ---->        app.listen(3000);
+server.listen(3000)
+
+app.use() has total 5 method overloads
+
+use([path], callback) 
+    eg: app.use('/', callback) ---> means this callback gets executed whenever the start path is '/'.
+
+body-parser: third party package used to parse the body of request. it is used in middleware befor other middlewares    
+                command to install body-parser : npm install --save body-parser.
+                example: const bodyParser = require('body-parser')
+                         app.use(bodyParser.urlencoded());
+
+
+app.get() --> is also similar to app.use(), but it only executes middleware for the get request.
+app.post()--> ----------------------------------------------------------------------post request.
+
+unlike use(), in get() and post() it will search for exact url, not for only the starting of url.
+
+
+const router = express.router()  -->is like a mini express app pluggable to the other express app.
+
+
+ADDING 404 PAGE
+we can chaing different methods with response like res.status().send(...) or res.setHeader().send(..) but send
+should be the last in the chain.
+
+eg res.status(404).send('<h1>Page not found</h1>')
+
+
+
+if we write 
+        app.use('/admin', adminRoutes)   ---> then it will see '/admin' before adminRouts
+                                         ---> this is helpful in setting the starting segment for every route.
+
+
+
+we have to provide the absolute path when the file is in another folder to relative path. But problem arises when we 
+don't know the previous absolute path to that directory, so to resolve it , we import "path" package.
+
+        const path = require('path')
+
+        res.sendFile(path.join(__dirname, '../', 'views', 'shop.html'));
+
+            '__dirname' here point to current directory path
+
+
+
+Helper function :
+            in this funtion we export the path to the main app.js file
+
+            const path = require('path')
+
+            module.exports = path.dirname(process.mainModule.filename)
+
+
+to link css file, we have to serve them staticly which means without handling through express, it should be forwarded directly to file system, 
+to achieve this we use following code:
+    app.use(express.static(__dirname, public));
