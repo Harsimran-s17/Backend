@@ -1,0 +1,159 @@
+when we simply use 'exports.products = products' to export the data, where product is and array of objects
+the data is shared among all the user, this is what we don't want most of the times.
+
+TEMPLATE ENGINES
+
+    HTMLish template : write some code in file which contains lot of html, but it has some blanks in there
+                       some placeholders .
+    
+    Node/Express content : like some dummy array(example : Products array)
+
+    Templating Engine : it understands certain syntax for which it scans our HTMLish template and where it
+                        then replaces placeholders or certain snippets depending on the engine we are using 
+                        with real html content
+
+
+DIFFERENT TEMPLATING ENGINES
+            - EJS
+            - Pug
+            - Handlebars
+
+
+app.set()   ---> enables us to set values globally
+
+    //setting configration values globally
+        app.set('view engine', 'pug')       //  --> select  the template engine  pug    
+        app.set('views', 'views')             //--> enables express to where find our views
+               (property, directory)
+
+
+
+PUG
+    Installation :  npm install --save pug 
+
+    //setting configration values globally
+        app.set('view engine', 'pug')       //  --> select  the template engine  pug    
+        app.set('views', 'views')             //--> enables express to where find our views
+               (property, directory)
+
+    rendering pug file
+        res.render('shop','dataObject')
+
+    using data in .pug file
+        #{dataItem}
+
+    loop in pug
+        each dataItem in data
+
+    indentation matters in pug
+
+    if-else 
+        if
+            pug code
+        else
+            pug code
+
+    block keyword --> to create hooks for defining layouts
+        pug code
+        block hookName             ---> this is to be written in layout file
+
+        extends layoutFilePath      ---> in .pug file where we need to use these layouts
+        block hookName
+            Content to be added 
+
+    dynamically adding class
+        h1(class=(path === '/' ?'active':''))
+
+
+
+
+EJS
+    Installation : npm install --save ejs 
+
+    app.set('view engine', 'ejs');
+    
+    ejs does not support layouts, but we will find some way for the reuseability of code.   
+
+    outputing data we recieve using <%= dataItem %>
+
+    if-else in ejs:
+        <% %>  --> we can write javascript code within this
+        example
+            <% if(prods.length > 0){ %>
+                html code
+            <% } else { % >
+                html code
+            <% } %>
+    
+    looping in EJS
+        <% for (let product of prods){ %>
+            html code
+        <% } %>
+
+    <%- %> used for unescaped values
+
+    As you see, <%= tag escapes the html tags, and does not let them to be translated. The opposite
+    happens with <%- tag, where html is translated (unescaped), and you see the result you wish. <%= 
+    tag escapes that code for security reasons.
+
+    include keyword - it allow us to include certain element to the page
+
+    Layouts with partials or includes
+        <%- include('pathToTheFileNeededToInclude') %>
+
+
+Handlebars
+    Installation : npm install --save express-handlebars 
+
+    we need to export it before using it, whether we need to import a template engine or not, it can be checked
+    in that template engine's documentation.
+        const expressHbs = require('express-handlebars')
+
+    app.engine('handlebars'<nameWeWantToGive>, expressHbs())     --> it registers the engine in case we're using the one which is not built-in, pug was
+                                                                        built-in, so it was not required to call this engine() method
+
+    app.set('view engine', 'handlebars');
+    app.set('views', 'views');
+
+    the file extension for this template engine will be the . + <the name we have given to the engine> 
+        example: app.engine('hbs',expressHbs());
+                 app.set('view engine', 'hbs');
+
+                 then the template engine file will be      
+                                : file.hbs
+                
+    dynamically outputing data in handlebars
+        using {{ dataItem }}
+
+    if-else 
+        {{#if hasProduct }}       --> # -> for special block statements
+            html code
+        {{ else }}
+            html code
+        {{/if}}
+
+    prods.length > 0   --> such statements are not supported in handlebars, it just supports the output of the keys that yields true or false
+                           so we pass it from our .js file
+    
+    looping in handlebars
+        {{#each prods}}
+            html code    ---->{'this' is used to handle current element of prods eg: 'this.title' ->to access title of current element}
+        {{/each}}
+
+    
+    Adding layouts
+        before everything, we need provide a path where our layout files reside, when we are adding a template engine.
+            example : app.engine('hbs',expressHbs({layoutsDir : 'views/layouts/'}))
+
+        we can alse set default layout as following
+            example : app.engine('hbs',expressHbs({layoutsDir : 'views/layouts/', defaultLayout : 'main-layout'}))
+
+
+        {{{ body }}} --> sets default layout
+        
+        if we need to add class or override css file link. we do it using if-else and passing the true/false value.
+
+        now, in handlebar file , the code which we write , replaces the placeholder in {{{ body }}}
+
+        setting extname(extension name) to hbs (it is required for layouts)
+            example : app.engine('hbs',expressHbs({layoutsDir : 'views/layouts/', defaultLayout : 'main-layout'}, extname: 'hbs'))
