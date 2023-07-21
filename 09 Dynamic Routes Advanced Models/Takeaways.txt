@@ -1,0 +1,25 @@
+// ADDING DETAILS PAGE
+
+    -o- First of all, we added a new propertiy in product.js model file , i.e. product id (id) which is r
+        random number generated using math function.
+
+    -o- Then to passed to product-list.ejs file in details button with path '/products/<%= product.id %>
+
+    -o- Then we created a route using router
+            router.get(/products/:productId)
+
+            use of colon(:) indicates that there can be any string after '/product/' in path
+
+
+    -o- <%- include('../includes/add-to-cart.ejs', {product: product}) %>
+        passing a local variable to include file as second argument
+
+//QUERY PARAMETER (?)
+
+    -o- eg.- localhost:3000/admin/edit-product/12345?edit=true
+
+    -o- we can add multiple query parameters seprating them with '&'
+        eg. - localhost:3000/admin/edit-product/12345?edit=true&title=new 
+
+    -o- We can access this query parameter in our request as : req.query.edit  ---> it returns the value in string always
+        if it is not find then it will be undefined
