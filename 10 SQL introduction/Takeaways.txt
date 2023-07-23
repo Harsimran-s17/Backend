@@ -1,0 +1,52 @@
+// SQL (Structured Query Language)
+    
+    -o- Reational data base , in the form of tables.
+    -o- have schema
+
+// NoSQL 
+
+    -o- have collections and documents
+    -o- schemaless
+    -o- we got no real Relations, thus we duplicate the data of one colletion in other where it is needed.
+        if this data changes, then we have to update it at multiple places.
+        On the other hand side, if we want to retrieve data, we don't need to join multiple tables together,
+        which is a large advantage over SQL databases.
+
+// Horizontal Scaling and Verticle Scaling
+
+    -o- Horizontal Scaling
+
+            --> in this, we increase the number of servers and connect them to our database and split the 
+                data across them.
+            --> we can do this infinitely.
+
+    -o- Verticle Scaling
+
+            --> It means , we are  simply making our servers stronger by adding more CPU or memory.
+            --> It is easy but it has some limit.
+
+//CONNECTING TO SQL DATABASE
+
+    There are two ways to connect to SQL Database: 
+        -o- In First way, we make connection, we run query and we close the connection.
+            In this way, we have to make a connection for every query and run a file for every query.
+        
+        -o- Creating a so called connection pool, it creates a pool of multiple connections which will allow
+            us to reach out to it whenever we have a query to run and then we get a new connection from the pool
+            which manages multiple connections, once a query is done a connection is handed over back to the pool and 
+            pool can be finished when our application is shut down, syntax as following:
+            const pool = createPool({
+                host: 'localhost',
+                user: 'root',
+                database: 'node-complete',
+                password: 'Password'
+            })
+
+
+    --> SQL injection - a type of vulnerability in which an attacker uses a piece of SQL (structured query language)
+        code to manipulate a database and gain access to potentially valuable information.
+        or in simple word a user may input SQL queries in input section and can access your backend data.
+
+        -o- To avoid this we use following:
+            db.execute('insert into products(title, price, imageUrl, description) values(?,?,?,?)', 
+            [this.title,this.price,this.imageUrl,this.description])
